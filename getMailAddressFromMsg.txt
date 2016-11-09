@@ -1,0 +1,67 @@
+Private Sub CommandButton1_Click()
+
+  Dim strFileName As String
+  Dim msgFileName As String
+  Dim OL As Outlook.Application
+  Dim Msg As Outlook.MailItem
+  Dim j As Long
+  Dim myString As String
+  
+  Dim path As String
+  
+  Const cnsDIR = "\*.msg"
+  
+  Dim re     As Object
+  Dim mc     As Object
+  
+  Set OL = New Outlook.Application
+  'Set OL = CreateObject("Outlook.Application")
+  
+  'path = Worksheets("Sheet1").Cells(1, 6)
+  'If path = "" Then path = ThisWorkbook.path
+  
+  path = ThisWorkbook.path
+  strFileName = Dir(path & cnsDIR, vbNormal)
+
+  j = 2
+
+   ' ファイルが見つからなくなるまで繰り返す
+   Do While strFileName <> ""
+  
+        msgFileName = path & "\" & strFileName
+        Worksheets("Sheet1").Cells(j, 1) = strFileName
+
+      Set Msg = OL.CreateItemFromTemplate(msgFileName)
+    
+        myString = Msg.Body
+        
+        Set re = CreateObject("VBScript.RegExp")
+        're.Pattern = "[a-zA-Z]+$"
+        're.Pattern = "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b"
+        re.Pattern = "(\S+)@([^\.\s]+)(?:\.([^\.\s]+))+"
+        Set mc = re.Execute(myString)
+        
+        If mc.Count > 0 Then
+            
+            Worksheets("Sheet1").Cells(j, 2) = Msg.ReceivedTime
+          
+            For i = 1 To mc.Count
+              
+                Worksheets("Sheet1").Cells(j, i + 2) = mc(i - 1).Value
+              
+            Next i
+        
+       
+        End If
+      
+       j = j + 1
+      
+       strFileName = Dir()
+   
+   Loop
+      
+    
+  Set Msg = Nothing
+  Set OL = Nothing
+
+End Sub
