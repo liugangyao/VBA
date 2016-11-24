@@ -1,7 +1,6 @@
 Github 简明教程
 ////http://www.runoob.com/w3cnote/git-guide.html
 
-
 http://www.cnblogs.com/schaepher/p/5561193.html  不错！！
 
 
@@ -28,3 +27,6 @@ http://www.cnblogs.com/schaepher/p/5561193.html  不错！！
 上传并指定默认 	push -u origin master 	指定origin为默认主机，以后push默认上传到origin上
 提交到远程仓库 	push 	将当前分支增加的commit提交到远程仓库
 从远程仓库同步 	pull 	在本地版本低于远程仓库版本的时候，获取远程仓库的commit
+
+3.
+git clone  https://github.com/Microsoft/TypeScript.git
